@@ -20,11 +20,20 @@ export default function DentalInvoice() {
   // Translation
   const { i18n, t } = useTranslation();
 
+  const [pageDirection, setPageDirection] = useState(
+    i18n.language === "ar" ? "rtl" : "ltr",
+  );
+
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
+
     i18n.changeLanguage(selectedLanguage);
 
-    document.documentElement.dir = selectedLanguage === "ar" ? "rtl" : "ltr";
+    const dir = selectedLanguage === "ar" ? "rtl" : "ltr";
+
+    setPageDirection(dir); // ✅ التخزين في state
+
+    document.documentElement.dir = dir;
     document.documentElement.lang = selectedLanguage;
   };
 
@@ -646,10 +655,14 @@ export default function DentalInvoice() {
         {/* ==== Dashboard ==== */}
 
         {/* Invoice Container */}
-        <div className="lg:col-span-2 flex justify-center ">
+        <div className="lg:col-span-2 flex justify-center " dir={pageDirection}>
           <div
             className="invoice-container relative shadow-2xl bg-white"
             ref={contentRef}
+            style={{
+              direction: pageDirection,
+              textAlign: pageDirection === "rtl" ? "right" : "left",
+            }}
           >
             <div className="invoice-box p-[8mm] flex flex-col justify-between h-full min-h-[297mm] ">
               {/* الجزء العلوي */}
