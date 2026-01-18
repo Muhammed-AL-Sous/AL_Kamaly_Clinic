@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
-
 /* تنسيق العرض على الشاشة */
 .invoice-container {
   background: white;
-  width: 210mm;
+  min-width: 210mm;
   min-height: 297mm;
-  margin: 0 auto;
+  margin: 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   padding: 0;
+
 }
 
 /* تنسيق الطباعة */
@@ -38,9 +38,9 @@
     display: table-header-group;
   }
 
-  footer {
+  /* footer {
     display: table-footer-group;
-  }
+  } */
 
   tr {
     page-break-inside: avoid;
