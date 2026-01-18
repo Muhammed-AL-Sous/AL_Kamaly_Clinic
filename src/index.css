@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+
+/* تنسيق العرض على الشاشة */
+.invoice-container {
+  background: white;
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
+/* تنسيق الطباعة */
+@media print {
+  body {
+    background: white;
+    margin: 0;
+    padding: 0;
+  }
+  .invoice-container {
+    width: 100%;
+    box-shadow: none;
+    page-break-after: avoid;
+    page-break-before: avoid;
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  table {
+    page-break-inside: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  footer {
+    display: table-footer-group;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  .invoice-container {
+    box-shadow: none;
+  }
+}
+
+/* إخفاء الأسهم في متصفحات Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none; /* الخاصية القياسية لحل التنبيه */
+  margin: 0;
+}
+
+/* إخفاء الأسهم في متصفح Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield; /* الخاصية القياسية */
+}
