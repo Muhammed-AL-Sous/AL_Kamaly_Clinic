@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./AL_Kamaly_Clinic/",
+  base: "/AL_Kamaly_Clinic/",
   plugins: [
     tailwindcss(),
     react({
