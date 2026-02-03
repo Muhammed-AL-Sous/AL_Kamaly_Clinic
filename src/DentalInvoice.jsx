@@ -130,8 +130,14 @@ export default function DentalInvoice() {
   const iqdServices = selectedServices.filter((s) => s.currency === "IQD");
   const usdServices = selectedServices.filter((s) => s.currency === "USD");
 
-  const subtotalIQD = iqdServices.reduce((acc, curr) => acc + curr.price, 0);
-  const subtotalUSD = usdServices.reduce((acc, curr) => acc + curr.price, 0);
+  const subtotalIQD = iqdServices.reduce(
+    (acc, curr) => acc + curr.customPrice * curr.quantity,
+    0,
+  );
+  const subtotalUSD = usdServices.reduce(
+    (acc, curr) => acc + curr.customPrice * curr.quantity,
+    0,
+  );
 
   const discountTotalIQD =
     subtotalIQD * (Number(percentDiscountIQD) / 100) + Number(discountIQD);
@@ -214,9 +220,30 @@ export default function DentalInvoice() {
     setSelectedServices((prev) =>
       prev.find((s) => s.id === service.id)
         ? prev.filter((s) => s.id !== service.id)
-        : [...prev, service],
+        : [...prev, { ...service, quantity: 1, customPrice: service.price }],
     );
   };
+
+  // Update Service Quantity
+  const updateServiceQuantity = (serviceId, quantity) => {
+    if (quantity < 1) quantity = 1;
+    setSelectedServices((prev) =>
+      prev.map((s) => (s.id === serviceId ? { ...s, quantity } : s)),
+    );
+  };
+
+  // Update Service Custom Price
+  const updateServicePrice = (serviceId, customPrice) => {
+    if (customPrice < 1) customPrice = 1;
+    setSelectedServices((prev) =>
+      prev.map((s) => (s.id === serviceId ? { ...s, customPrice } : s)),
+    );
+  };
+
+  // Remove Service
+  // const removeService = (serviceId) => {
+  //   setSelectedServices((prev) => prev.filter((s) => s.id !== serviceId));
+  // };
 
   // Add New Service Modal Handlers
   const handleAddService = () => {
@@ -289,6 +316,8 @@ export default function DentalInvoice() {
   };
 
   // دالة لمنع تغيير الرقم عند استخدام بكرة الماوس
+  // تستخدم هذه الدالة عندما يكون عنصر الادخال نوعه رقم وليس نص
+  // في حال كان عنصر الادخال نوعه نص هذه الدالة لا فائدة منها
   const handleWheel = (e) => {
     // إزالة التركيز عن الحقل عند محاولة التمرير فوقه
     e.target.blur();
@@ -299,6 +328,11 @@ export default function DentalInvoice() {
     if (!val) return "";
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+
+  // new method
+  // let val = 1000000;
+  // console.log(val.toLocaleString("en-US")); // النتيجة: 1,000,000
+  // console.log(val.toLocaleString("ar-EG")); // النتيجة: ١٬٠٠٠٬٠٠٠ (بالتنسيق العربي)
 
   // Add Note Modal Handlers
   const handleAddNote = () => {
@@ -374,6 +408,10 @@ export default function DentalInvoice() {
 
               <option value="Dr.Riyadh AL-Kamaly">
                 {t("Dr.Riyadh AL-Kamaly")}
+              </option>
+
+              <option value="Dr.Seima Abdel-Samad">
+                {t("Dr.Seima Abdel-Samad")}
               </option>
             </select>
 
@@ -720,34 +758,93 @@ export default function DentalInvoice() {
                   </div>
                 )}
 
-                <table className="w-full text-start border-collapse border border-gray-400">
+                <table className="w-full table-fixed text-start border-collapse border border-gray-400">
                   <thead>
-                    <tr className="bg-blue-900 text-white">
-                      <th className="p-4 border border-gray-300 ">
+                    <tr className=" bg-blue-900 text-white">
+                      <th className="px-2 py-3 border border-gray-300 w-[37%]">
                         {t("Service-Treatment")}
                       </th>
-                      <th className="p-4 border border-gray-300 text-center w-40">
+                      <th className="px-2 py-3 border border-gray-300 text-center w-[13%]">
+                        {t("Quantity")}
+                      </th>
+                      <th className=" px-2 py-3 border border-gray-300 text-center w-[15%] ">
+                        {t("Unit Price")}
+                      </th>
+                      <th className=" px-2 py-3 border border-gray-300 text-center w-[17.5%] white-space-nowrap">
                         {t("amount iqd")}
                       </th>
-                      <th className="p-4 border border-gray-300 text-center w-40">
+                      <th className=" px-2 py-3 border border-gray-300 text-center w-[17.5%]">
                         {t("amount $")}
                       </th>
+                      {/* <th
+                        className="p-1 border border-gray-300 text-center print:hidden"
+           
+                      >
+                        {t("Remove")}
+                      </th> */}
                     </tr>
                   </thead>
+
                   <tbody>
                     {selectedServices.map((s, i) => (
-                      <tr key={i} className="border-b border-slate-100">
-                        <td className="p-4 text-lg border font-bold border-gray-300">
+                      <tr
+                        key={i}
+                        className="border-b border-slate-100 text-center"
+                      >
+                        <td className="px-2 py-3 text-lg border font-bold border-gray-300">
                           {t(s.name)}
                         </td>
-                        <td className="p-4 text-lg border font-bold text-center border-gray-300">
+
+                        <td className="px-2 py-3 border font-bold border-gray-300 text-center">
+                          <input
+                            type="number"
+                            min="1"
+                            value={s.quantity || 1}
+                            onChange={(e) =>
+                              updateServiceQuantity(
+                                s.id,
+                                Number(e.target.value) || 1,
+                              )
+                            }
+                            className="w-16 max-w-full text-center border-none focus:outline-none"
+                          />
+                        </td>
+
+                        <td className="px-2 py-3 border font-bold border-gray-300 text-center ">
+                          <input
+                            type="number"
+                            min="1"
+                            value={s.customPrice || s.price}
+                            onChange={(e) =>
+                              updateServicePrice(
+                                s.id,
+                                Number(e.target.value) || s.price,
+                              )
+                            }
+                            className="w-24 max-w-full text-center text-lg border-none focus:outline-none"
+                          />
+                        </td>
+
+                        <td className="px-2 py-3 text-lg border font-bold text-center border-gray-300">
                           {s.currency === "IQD"
-                            ? `${s.price.toLocaleString()} ${t("IQD")}`
+                            ? `${((s.customPrice || s.price) * (s.quantity || 1)).toLocaleString()} ${t("IQD")}`
                             : "-"}
                         </td>
-                        <td className="p-4 text-lg border font-bold text-center border-gray-300">
-                          {s.currency === "USD" ? ` ${s.price} $` : "-"}
+
+                        <td className="px-2 py-3 text-lg border font-bold text-center border-gray-300">
+                          {s.currency === "USD"
+                            ? ` ${(s.customPrice || s.price) * (s.quantity || 1)} $`
+                            : "-"}
                         </td>
+
+                        {/* <td className="p-4 border border-gray-300 text-center print:hidden">
+                          <button
+                            onClick={() => removeService(s.id)}
+                            className="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition font-bold"
+                          >
+                            ✕
+                          </button>
+                        </td> */}
                       </tr>
                     ))}
                   </tbody>
@@ -786,7 +883,7 @@ export default function DentalInvoice() {
                       }`}
                     >
                       <span>{t("remaining")} :</span>{" "}
-                      <span>{remainingIQD.toLocaleString()} د.ع</span>
+                      <span>{`${remainingIQD.toLocaleString()} ${t("IQD")} `}</span>
                     </p>
                   </div>
 
@@ -818,8 +915,8 @@ export default function DentalInvoice() {
                         remainingUSD > 0 ? "text-red-600" : "text-blue-700"
                       }`}
                     >
-                      <span>{t("remaining")} :</span>{" "}
-                      <span>${remainingUSD}</span>
+                      <span>{t("remaining")} :</span>
+                      <span>{`${remainingUSD} $`} </span>
                     </p>
                   </div>
                 </div>
