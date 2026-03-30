@@ -87,12 +87,14 @@ export default function DentalInvoice() {
     },
     { id: 6, name: "Post and core", price: 125000, currency: "IQD" },
     { id: 7, name: "Simple tooth extraction", price: 40000, currency: "IQD" },
-    { id: 8, name: "E-MAX crown_veneer", price: 240, currency: "USD" },
-    { id: 9, name: "Orthodontics", price: 800, currency: "USD" },
+    { id: 8, name: "Root Canal Treatment", price: 140000, currency: "IQD" },
+    { id: 9, name: "Root Canal Retreatment", price: 220000, currency: "IQD" },
     { id: 10, name: "Teeth cultivation", price: 440, currency: "USD" },
     { id: 11, name: "Teeth whitening 'German'", price: 220, currency: "USD" },
     { id: 12, name: "Teeth whitening 'USA'", price: 175, currency: "USD" },
     { id: 13, name: "Surgical tooth extraction", price: 150, currency: "USD" },
+    { id: 14, name: "E-MAX crown_veneer", price: 240, currency: "USD" },
+    { id: 15, name: "Orthodontics", price: 800, currency: "USD" },
   ]);
 
   // هذا الكود سيقوم بترجمة الأسماء فوراً عند تغيير اللغة دون المساس بالبيانات الأصلية
