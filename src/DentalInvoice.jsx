@@ -299,15 +299,25 @@ export default function DentalInvoice() {
       return;
     }
 
-    const newService = {
-      id: getNextId(),
-      name: newServiceName,
-      price: Number(newServicePrice),
-      currency: newServiceCurrency,
-    };
+const newService = {
+  id: getNextId(),
+  name: newServiceName,
+  price: Number(newServicePrice),
+  currency: newServiceCurrency,
+};
 
-    setServices([...services, newService]);
-    setSelectedServices([...selectedServices, newService]);
+const selectedNewService = {
+  ...newService,
+  quantity: 1,
+  customPrice: Number(newServicePrice),
+};
+
+setServices((prev) => [...prev, newService]);
+
+setSelectedServices((prev) => [
+  ...prev,
+  selectedNewService,
+]);
     notify(`${t("Service successfully added")}`, "success");
 
     // reset
