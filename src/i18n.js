@@ -24,8 +24,8 @@ const resources = {
       "Post and core": "Post And Core",
       "Simple tooth extraction": "Simple Tooth Extraction",
       "E-MAX crown_veneer": "E-MAX Crown \\ Veneer",
-      "Temporary E-MAX Crown/Veneer Placement":
-        "Temporary E-MAX Crown/Veneer Placement",
+      "Temporary E-MAX Crown-Veneer Placement":
+        "Temporary E-MAX Crown-Veneer Placement",
       Orthodontics: "Orthodontics",
       "Teeth cultivation": "Dental Implant",
       "Teeth whitening 'German'": "Teeth Whitening 'German'",
@@ -124,7 +124,7 @@ const resources = {
       "Post and core": "بناء السن",
       "Simple tooth extraction": "قلع سن بسيط",
       "E-MAX crown_veneer": "ايماكس فينير - تركيب",
-      "Temporary E-MAX Crown/Veneer Placement":
+      "Temporary E-MAX Crown-Veneer Placement":
         "إيماكس كراون/فينير - تركيب مؤقت",
       Orthodontics: "تقويم أسنان",
       "Teeth cultivation": "زراعة سن",
