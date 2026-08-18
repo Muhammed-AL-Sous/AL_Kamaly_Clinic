@@ -132,14 +132,16 @@ export default function DentalInvoice() {
   const iqdServices = selectedServices.filter((s) => s.currency === "IQD");
   const usdServices = selectedServices.filter((s) => s.currency === "USD");
 
-  const subtotalIQD = iqdServices.reduce(
-    (acc, curr) => acc + curr.customPrice * curr.quantity,
-    0,
-  );
-  const subtotalUSD = usdServices.reduce(
-    (acc, curr) => acc + curr.customPrice * curr.quantity,
-    0,
-  );
+const subtotalIQD = iqdServices.reduce(
+  (acc, curr) =>
+    acc + Number(curr.customPrice || curr.price || 0) * Number(curr.quantity || 1),
+  0,
+);
+ const subtotalUSD = usdServices.reduce(
+  (acc, curr) =>
+    acc + Number(curr.customPrice || curr.price || 0) * Number(curr.quantity || 1),
+  0,
+);
 
   const discountTotalIQD =
     subtotalIQD * (Number(percentDiscountIQD) / 100) + Number(discountIQD);
@@ -312,11 +314,13 @@ const selectedNewService = {
   customPrice: Number(newServicePrice),
 };
 
-setServices((prev) => [...prev, newService]);
-
 setSelectedServices((prev) => [
   ...prev,
-  selectedNewService,
+  {
+    ...newService,
+    quantity: 1,
+    customPrice: newService.price,
+  },
 ]);
     notify(`${t("Service successfully added")}`, "success");
 
