@@ -17,7 +17,7 @@ import notify from "./ToastifyNotification";
 import { useTranslation } from "react-i18next";
 
 export default function DentalInvoice() {
-// Translation
+  // Translation
   const { i18n, t } = useTranslation();
 
   const [pageDirection, setPageDirection] = useState(
@@ -132,16 +132,18 @@ export default function DentalInvoice() {
   const iqdServices = selectedServices.filter((s) => s.currency === "IQD");
   const usdServices = selectedServices.filter((s) => s.currency === "USD");
 
-const subtotalIQD = iqdServices.reduce(
-  (acc, curr) =>
-    acc + Number(curr.customPrice || curr.price || 0) * Number(curr.quantity || 1),
-  0,
-);
- const subtotalUSD = usdServices.reduce(
-  (acc, curr) =>
-    acc + Number(curr.customPrice || curr.price || 0) * Number(curr.quantity || 1),
-  0,
-);
+  const subtotalIQD = iqdServices.reduce(
+    (acc, curr) =>
+      acc +
+      Number(curr.customPrice || curr.price || 0) * Number(curr.quantity || 1),
+    0,
+  );
+  const subtotalUSD = usdServices.reduce(
+    (acc, curr) =>
+      acc +
+      Number(curr.customPrice || curr.price || 0) * Number(curr.quantity || 1),
+    0,
+  );
 
   const discountTotalIQD =
     subtotalIQD * (Number(percentDiscountIQD) / 100) + Number(discountIQD);
@@ -301,27 +303,27 @@ const subtotalIQD = iqdServices.reduce(
       return;
     }
 
-const newService = {
-  id: getNextId(),
-  name: newServiceName,
-  price: Number(newServicePrice),
-  currency: newServiceCurrency,
-};
+    const newService = {
+      id: getNextId(),
+      name: newServiceName,
+      price: Number(newServicePrice),
+      currency: newServiceCurrency,
+    };
 
-const selectedNewService = {
-  ...newService,
-  quantity: 1,
-  customPrice: Number(newServicePrice),
-};
+    const selectedNewService = {
+      ...newService,
+      quantity: 1,
+      customPrice: Number(newServicePrice),
+    };
 
-setSelectedServices((prev) => [
-  ...prev,
-  {
-    ...newService,
-    quantity: 1,
-    customPrice: newService.price,
-  },
-]);
+    setSelectedServices((prev) => [
+      ...prev,
+      {
+        ...newService,
+        quantity: 1,
+        customPrice: newService.price,
+      },
+    ]);
     notify(`${t("Service successfully added")}`, "success");
 
     // reset
