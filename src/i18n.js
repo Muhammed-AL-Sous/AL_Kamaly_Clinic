@@ -125,7 +125,7 @@ const resources = {
       "Simple tooth extraction": "قلع سن بسيط",
       "E-MAX crown_veneer": "ايماكس فينير - تركيب",
       "Temporary E-MAX Crown-Veneer Placement":
-        "إيماكس كراون/فينير - تركيب مؤقت",
+        "إيماكس كراون - فينير - تركيب مؤقت",
       Orthodontics: "تقويم أسنان",
       "Teeth cultivation": "زراعة سن",
       "Teeth whitening 'German'": "تبييض الاسنان بالليزر 'جودة ألمانية'",
