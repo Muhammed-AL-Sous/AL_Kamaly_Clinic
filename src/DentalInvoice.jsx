@@ -38,21 +38,72 @@ const DOCTORS = [
 ];
 
 const DEFAULT_SERVICES = [
-  { id: 1, name: "RCT 'Root Canal treatment'", price: 230000, currency: CURRENCY.IQD },
-  { id: 2, name: "Posterior tooth filling", price: 90000, currency: CURRENCY.IQD },
-  { id: 3, name: "Anterior esthetic filling", price: 150000, currency: CURRENCY.IQD },
+  {
+    id: 1,
+    name: "RCT 'Root Canal treatment'",
+    price: 230000,
+    currency: CURRENCY.IQD,
+  },
+  {
+    id: 2,
+    name: "Posterior tooth filling",
+    price: 90000,
+    currency: CURRENCY.IQD,
+  },
+  {
+    id: 3,
+    name: "Anterior esthetic filling",
+    price: 150000,
+    currency: CURRENCY.IQD,
+  },
   { id: 4, name: "Zirconium crown", price: 230000, currency: CURRENCY.IQD },
-  { id: 5, name: "Teeth cleaning and polishing", price: 75000, currency: CURRENCY.IQD },
+  {
+    id: 5,
+    name: "Teeth cleaning and polishing",
+    price: 75000,
+    currency: CURRENCY.IQD,
+  },
   { id: 6, name: "Post and core", price: 125000, currency: CURRENCY.IQD },
-  { id: 7, name: "Simple tooth extraction", price: 40000, currency: CURRENCY.IQD },
-  { id: 8, name: "Root Canal Treatment", price: 140000, currency: CURRENCY.IQD },
-  { id: 9, name: "Root Canal Retreatment", price: 220000, currency: CURRENCY.IQD },
+  {
+    id: 7,
+    name: "Simple tooth extraction",
+    price: 40000,
+    currency: CURRENCY.IQD,
+  },
+  {
+    id: 8,
+    name: "Root Canal Treatment",
+    price: 140000,
+    currency: CURRENCY.IQD,
+  },
+  {
+    id: 9,
+    name: "Root Canal Retreatment",
+    price: 220000,
+    currency: CURRENCY.IQD,
+  },
   { id: 10, name: "Teeth cultivation", price: 440, currency: CURRENCY.USD },
-  { id: 11, name: "Teeth whitening 'German'", price: 220, currency: CURRENCY.USD },
+  {
+    id: 11,
+    name: "Teeth whitening 'German'",
+    price: 220,
+    currency: CURRENCY.USD,
+  },
   { id: 12, name: "Teeth whitening 'USA'", price: 175, currency: CURRENCY.USD },
-  { id: 13, name: "Surgical tooth extraction", price: 150, currency: CURRENCY.USD },
+  {
+    id: 13,
+    name: "Surgical tooth extraction",
+    price: 150,
+    currency: CURRENCY.USD,
+  },
   { id: 14, name: "E-MAX crown_veneer", price: 240, currency: CURRENCY.USD },
   { id: 15, name: "Orthodontics", price: 800, currency: CURRENCY.USD },
+  {
+    id: 16,
+    name: "Temporary E-MAX Crown-Veneer Placement",
+    price: 10,
+    currency: CURRENCY.USD,
+  },
 ];
 
 // --------------------------------------------------------------------------
@@ -193,9 +244,11 @@ export default function DentalInvoice() {
   const subtotalUSD = useMemo(() => sumLineItems(usdServices), [usdServices]);
 
   const discountTotalIQD =
-    subtotalIQD * (safeNumber(percentDiscountIQD) / 100) + safeNumber(discountIQD);
+    subtotalIQD * (safeNumber(percentDiscountIQD) / 100) +
+    safeNumber(discountIQD);
   const discountTotalUSD =
-    subtotalUSD * (safeNumber(percentDiscountUSD) / 100) + safeNumber(discountUSD);
+    subtotalUSD * (safeNumber(percentDiscountUSD) / 100) +
+    safeNumber(discountUSD);
 
   const finalIQD = subtotalIQD - (showDiscount ? discountTotalIQD : 0);
   const finalUSD = subtotalUSD - (showDiscount ? discountTotalUSD : 0);
@@ -295,12 +348,15 @@ export default function DentalInvoice() {
     );
   }, []);
 
-  const updateServicePrice = useCallback((serviceId, rawPrice, fallbackPrice) => {
-    const customPrice = Math.max(1, safeNumber(rawPrice) || fallbackPrice);
-    setSelectedServices((prev) =>
-      prev.map((s) => (s.id === serviceId ? { ...s, customPrice } : s)),
-    );
-  }, []);
+  const updateServicePrice = useCallback(
+    (serviceId, rawPrice, fallbackPrice) => {
+      const customPrice = Math.max(1, safeNumber(rawPrice) || fallbackPrice);
+      setSelectedServices((prev) =>
+        prev.map((s) => (s.id === serviceId ? { ...s, customPrice } : s)),
+      );
+    },
+    [],
+  );
 
   // ---------------------------------------------------------------------
   // Add-service modal
@@ -469,7 +525,10 @@ export default function DentalInvoice() {
           </h2>
 
           <div className="mb-2">
-            <label className="text-gray-700 font-bold" htmlFor="language-select">
+            <label
+              className="text-gray-700 font-bold"
+              htmlFor="language-select"
+            >
               {t("Select language")} :{" "}
             </label>
             <select
@@ -523,10 +582,13 @@ export default function DentalInvoice() {
                   <span className="flex-1 text-sm">{s.displayName}</span>
                   <span
                     className={`text-xs font-bold ${
-                      s.currency === CURRENCY.USD ? "text-blue-600" : "text-emerald-600"
+                      s.currency === CURRENCY.USD
+                        ? "text-blue-600"
+                        : "text-emerald-600"
                     }`}
                   >
-                    {s.price.toLocaleString()} {s.currency === CURRENCY.USD ? "$" : t("IQD")}
+                    {s.price.toLocaleString()}{" "}
+                    {s.currency === CURRENCY.USD ? "$" : t("IQD")}
                   </span>
                 </label>
               ))}
@@ -576,7 +638,11 @@ export default function DentalInvoice() {
                   disabled={!showDiscount}
                   value={formatNumber(discountIQD)}
                   onChange={(e) =>
-                    handleDiscountAmountChange(e.target.value, subtotalIQD, setDiscountIQD)
+                    handleDiscountAmountChange(
+                      e.target.value,
+                      subtotalIQD,
+                      setDiscountIQD,
+                    )
                   }
                 />
                 <input
@@ -612,7 +678,9 @@ export default function DentalInvoice() {
                   placeholder={t("Amount received IQD")}
                   className="p-2 w-full border rounded text-sm border-green-800 focus:outline-green-800 text-green-800 font-bold bg-emerald-50"
                   value={formatNumber(receivedIQD)}
-                  onChange={(e) => handleReceivedChange(e.target.value, setReceivedIQD)}
+                  onChange={(e) =>
+                    handleReceivedChange(e.target.value, setReceivedIQD)
+                  }
                 />
               </div>
             </div>
@@ -640,7 +708,11 @@ export default function DentalInvoice() {
                   disabled={!showDiscount}
                   value={formatNumber(discountUSD)}
                   onChange={(e) =>
-                    handleDiscountAmountChange(e.target.value, subtotalUSD, setDiscountUSD)
+                    handleDiscountAmountChange(
+                      e.target.value,
+                      subtotalUSD,
+                      setDiscountUSD,
+                    )
                   }
                 />
                 <input
@@ -676,7 +748,9 @@ export default function DentalInvoice() {
                   placeholder={t("Amount received $")}
                   className="p-2 w-full border rounded text-sm border-green-800 focus:outline-green-800 text-green-800 font-bold bg-emerald-50"
                   value={formatNumber(receivedUSD)}
-                  onChange={(e) => handleReceivedChange(e.target.value, setReceivedUSD)}
+                  onChange={(e) =>
+                    handleReceivedChange(e.target.value, setReceivedUSD)
+                  }
                 />
               </div>
             </div>
@@ -730,7 +804,11 @@ export default function DentalInvoice() {
                       </p>
                     </div>
                     <div>
-                      <img src={alkamalyLogo} alt="AL-Kamaly Logo" className="w-64" />
+                      <img
+                        src={alkamalyLogo}
+                        alt="AL-Kamaly Logo"
+                        className="w-64"
+                      />
                     </div>
                   </div>
 
@@ -751,7 +829,9 @@ export default function DentalInvoice() {
                   <div className="text-lg">
                     {t("Under the supervision of")} :{" "}
                     <span className="font-bold border-b border-dotted border-slate-400 pb-1">
-                      {doctorName ? t(doctorName) : "................................"}
+                      {doctorName
+                        ? t(doctorName)
+                        : "................................"}
                     </span>
                   </div>
                 </div>
@@ -803,7 +883,10 @@ export default function DentalInvoice() {
                       const lineTotal = price * qty;
 
                       return (
-                        <tr key={s.id} className="border-b border-slate-100 text-center">
+                        <tr
+                          key={s.id}
+                          className="border-b border-slate-100 text-center"
+                        >
                           <td className="px-2 py-3 text-lg border font-bold border-gray-300">
                             {t(s.name)}
                           </td>
@@ -813,7 +896,9 @@ export default function DentalInvoice() {
                               type="number"
                               min="1"
                               value={qty}
-                              onChange={(e) => updateServiceQuantity(s.id, e.target.value)}
+                              onChange={(e) =>
+                                updateServiceQuantity(s.id, e.target.value)
+                              }
                               className="w-16 max-w-full text-center border-none focus:outline-none"
                             />
                           </td>
@@ -824,7 +909,11 @@ export default function DentalInvoice() {
                               min="1"
                               value={price}
                               onChange={(e) =>
-                                updateServicePrice(s.id, e.target.value, s.price)
+                                updateServicePrice(
+                                  s.id,
+                                  e.target.value,
+                                  s.price,
+                                )
                               }
                               className="w-24 max-w-full text-center text-lg border-none focus:outline-none"
                             />
@@ -837,7 +926,9 @@ export default function DentalInvoice() {
                           </td>
 
                           <td className="px-2 py-3 text-lg border font-bold text-center border-gray-300">
-                            {s.currency === CURRENCY.USD ? `${lineTotal.toLocaleString()} $` : "-"}
+                            {s.currency === CURRENCY.USD
+                              ? `${lineTotal.toLocaleString()} $`
+                              : "-"}
                           </td>
                         </tr>
                       );
@@ -921,7 +1012,9 @@ export default function DentalInvoice() {
                   <footer className="text-center">
                     <div className="pb-0 mb-0 w-full">
                       <p className="text-slate-400 text-sm mb-2">
-                        {t("This document is officially approved by the clinic")}
+                        {t(
+                          "This document is officially approved by the clinic",
+                        )}
                       </p>
                       <div className="flex justify-center items-center bg-slate-100 p-1 gap-10 text-[10px] text-slate-300 border-t">
                         <span className="text-amber-950 font-semibold">
@@ -956,7 +1049,11 @@ export default function DentalInvoice() {
         >
           <div
             className="fixed bg-gray-700 w-lg h-90 rounded-2xl p-3 z-9999"
-            style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+            style={{
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -1003,7 +1100,9 @@ export default function DentalInvoice() {
                 onWheel={handleWheel}
                 className="w-80 ms-2 border-2 border-amber-50 outline-0 rounded p-1 text-white text-lg"
                 value={formatNumber(newServicePrice)}
-                onChange={(e) => setNewServicePrice(safeNumber(digitsOnly(e.target.value)))}
+                onChange={(e) =>
+                  setNewServicePrice(safeNumber(digitsOnly(e.target.value)))
+                }
               />
             </div>
 
@@ -1045,7 +1144,11 @@ export default function DentalInvoice() {
         >
           <div
             className="fixed bg-blue-950 w-3xl rounded-2xl p-3 z-9999"
-            style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+            style={{
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -1068,7 +1171,10 @@ export default function DentalInvoice() {
               </button>
             </div>
             <div className="flex items-center p-2 gap-2">
-              <label htmlFor="note-textarea" className="w-25 font-bold text-white">
+              <label
+                htmlFor="note-textarea"
+                className="w-25 font-bold text-white"
+              >
                 {t("note")} :
               </label>
               <textarea
