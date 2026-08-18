@@ -17,7 +17,7 @@ import notify from "./ToastifyNotification";
 import { useTranslation } from "react-i18next";
 
 export default function DentalInvoice() {
-  // Translation
+// Translation
   const { i18n, t } = useTranslation();
 
   const [pageDirection, setPageDirection] = useState(
